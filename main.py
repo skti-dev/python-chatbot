@@ -29,11 +29,15 @@ def load_knowledge_base(path):
   text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
   texts = text_splitter.split_documents(documents)
   
-  vector_store = Chroma.from_documents(texts, embeddings)
+  vector_store = Chroma.from_documents(texts, embeddings, persist_directory="./chroma_db")
+  vector_store.persist()
   return vector_store
 
 
 def main():
+  if not os.path.exists(file_path):
+    raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
+  
   knowledge_base = load_knowledge_base(file_path)
   
   st.title('Chatbot Technova')
