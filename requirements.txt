@@ -1,9 +1,8 @@
 streamlit
 langchain
 langchain-community
-chromadb==0.4.22
+chromadb
 sentence-transformers
 pypdf
 tiktoken
-numpy==1.23.5
 langchain_groq
