@@ -10,6 +10,7 @@ from langchain.document_loaders import PyPDFLoader, TextLoader
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(script_dir, 'base_de_conhecimento.txt')
+chroma_db_dir = os.path.join(script_dir, 'chroma_db')
 
 os.environ["GROQ_API_KEY"] = GROQ_API_KEY
 
@@ -29,10 +30,9 @@ def load_knowledge_base(path):
   text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
   texts = text_splitter.split_documents(documents)
   
-  vector_store = Chroma.from_documents(texts, embeddings, persist_directory="./chroma_db")
+  vector_store = Chroma.from_documents(texts, embeddings, persist_directory=chroma_db_dir)
   vector_store.persist()
   return vector_store
-
 
 def main():
   if not os.path.exists(file_path):
